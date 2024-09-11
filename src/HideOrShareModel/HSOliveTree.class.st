@@ -1,10 +1,6 @@
 Class {
 	#name : 'HSOliveTree',
 	#superclass : 'HSField',
-	#instVars : [
-		'sensitivityBacteriaA',
-		'sensitivityBacteriaB'
-	],
 	#category : 'HideOrShareModel',
 	#package : 'HideOrShareModel'
 }
@@ -19,4 +15,10 @@ HSOliveTree >> color [
 HSOliveTree >> isOliveTree [
 
 	^ true
+]
+
+{ #category : 'pov' }
+HSOliveTree >> sensitivityToBacteria [
+
+	^ 0.4
 ]

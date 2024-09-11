@@ -15,12 +15,20 @@ Class {
 }
 
 { #category : 'initialization' }
-HSModel >> basicCreation [ 
+HSModel >> basicCreation [
 
 	<init>
+	| destination |
 	self basicLandscape.
-	self createN: 9 randomlyLocatedEntities: HSHorticulturist 
+	self createN: 9 randomlyLocatedEntities: HSHorticulturist.
+	self createN: 3 randomlyLocatedEntities: HSDestroyer.
+	self createSquaredPropertiesDimension: 3.
+
+	horticulturists do: [ :each |
+		destination := self selectRandomlyFrom: each ownedPlots.
+		each moveTo: destination ].
 	
+	(self selectRandomlyFrom: plots) setInfection 
 ]
 
 { #category : 'initialization' }
@@ -67,8 +75,8 @@ HSModel >> basicLandscape [
 { #category : 'control' }
 HSModel >> basicStep [
 
-	<control>
-
+<control>
+	plots do: #step
 ]
 
 { #category : 'as yet unclassified' }

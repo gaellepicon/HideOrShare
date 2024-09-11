@@ -1,10 +1,6 @@
 Class {
 	#name : 'HSAlmondTree',
 	#superclass : 'HSField',
-	#instVars : [
-		'sensitivityBacteriaA',
-		'sensitivityBacteriaB'
-	],
 	#category : 'HideOrShareModel',
 	#package : 'HideOrShareModel'
 }
@@ -19,4 +15,10 @@ HSAlmondTree >> color [
 HSAlmondTree >> isAlmondTree [ 
 
 	^ true
+]
+
+{ #category : 'accessing' }
+HSAlmondTree >> sensitivityToBacteria [ 
+
+	^ 0.1
 ]

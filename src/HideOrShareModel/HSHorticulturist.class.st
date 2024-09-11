@@ -4,7 +4,7 @@ Class {
 	#traits : 'TCMLocated',
 	#classTraits : 'TCMLocated classTrait',
 	#instVars : [
-		'property',
+		'plots',
 		'status',
 		'detectionLevel',
 		'availableForTraining',
@@ -30,6 +30,18 @@ HSHorticulturist >> detectSymptoms [
 HSHorticulturist >> initialize [ 
 
 	super initialize 
+]
+
+{ #category : 'accessing' }
+HSHorticulturist >> ownedPlots [ 
+
+^ plots
+]
+
+{ #category : 'accessing' }
+HSHorticulturist >> plots: aCollection [
+
+	plots := aCollection
 ]
 
 { #category : 'pov' }

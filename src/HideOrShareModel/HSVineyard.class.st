@@ -1,10 +1,6 @@
 Class {
 	#name : 'HSVineyard',
 	#superclass : 'HSField',
-	#instVars : [
-		'sensitivityBacteriaA',
-		'sensitivityBacteriaB'
-	],
 	#category : 'HideOrShareModel',
 	#package : 'HideOrShareModel'
 }
@@ -19,4 +15,10 @@ HSVineyard >> color [
 HSVineyard >> isVineyard [
 
 	^ true
+]
+
+{ #category : 'pov' }
+HSVineyard >> sensitivityToBacteria [
+
+	^ 0.6
 ]
