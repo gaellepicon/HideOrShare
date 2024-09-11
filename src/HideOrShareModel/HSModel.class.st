@@ -83,6 +83,28 @@ HSModel >> coverRandomPlotsWith: aFieldClass proportion: aNumber [
 ]
 
 { #category : 'accessing' }
+HSModel >> createSquaredPropertiesDimension: n [
+
+	| index selectedPlots sideSize |
+	index := 0.
+	sideSize := self spaceModel numberOfRows // n.
+
+	1 to: n do: [ :i |
+		1 to: n do: [ :j |
+			index := index + 1.
+			selectedPlots := plots select: [ :aPlot |
+				                 (aPlot rowNumber
+					                  between: 1 + (i - 1 * sideSize)
+					                  and: i * sideSize) and: [
+					                 aPlot columnNumber
+						                 between: 1 + (j - 1 * sideSize)
+						                 and: j * sideSize ] ].
+			(horticulturists at: index) plots: selectedPlots.
+			selectedPlots do: [ :each |
+				each owner: (horticulturists at: index) ] ] ]
+]
+
+{ #category : 'accessing' }
 HSModel >> destroyers [
 
 	<getterFor: #HSDestroyer>
