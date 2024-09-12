@@ -31,6 +31,7 @@ HSPlot >> contagionRate [
 { #category : 'deleting' }
 HSPlot >> destroy [
 
+	<action>
 	isDestroyed := true
 ]
 
@@ -177,7 +178,8 @@ HSPlot >> povOwner [
 { #category : 'control' }
 HSPlot >> setInfection [ 
 
-infectionLevel := 0.5
+	<action>
+	infectionLevel := 0.5
 	
 ]
 
