@@ -47,8 +47,8 @@ HSHorticulturist >> hasAnyInfectedField [
 { #category : 'control' }
 HSHorticulturist >> hide [
 
-	self hasAnyInfectedField ifFalse: [^ self].
-	
+	self hasAnyInfectedField ifFalse: [ ^ self ].
+
 	self moveTo: self mostInfectedField.
 	self patch destroy
 ]
@@ -128,8 +128,17 @@ HSHorticulturist >> setDetectionLevel [
 		and: 1
 ]
 
+{ #category : 'control' }
+HSHorticulturist >> share [
+
+	self hasAnyInfectedField ifFalse: [^ self].
+	
+	self moveTo: self mostInfectedField.
+	
+]
+
 { #category : 'stepping' }
 HSHorticulturist >> step [
 
-	self hide.
+	self hide 
 ]

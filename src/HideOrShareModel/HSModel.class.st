@@ -28,7 +28,10 @@ HSModel >> basicCreation [
 		destination := self selectRandomlyFrom: each ownedPlots.
 		each moveTo: destination ].
 	
-	(self selectRandomlyFrom: plots) setInfection 
+	destroyers do: [ :each |
+		each plots: plots ].
+
+	(self selectRandomlyFrom: plots) setInfection
 ]
 
 { #category : 'initialization' }
@@ -77,7 +80,8 @@ HSModel >> basicStep [
 
 	<control>
 	plots do: #step.
-	horticulturists do: #step
+	horticulturists do: #step.
+	destroyers do: #step
 ]
 
 { #category : 'as yet unclassified' }

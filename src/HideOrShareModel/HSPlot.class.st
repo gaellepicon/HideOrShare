@@ -58,6 +58,14 @@ HSPlot >> destroy [
 	infectionLevel := 0
 ]
 
+{ #category : 'deleting' }
+HSPlot >> destroyWithNeighbours [
+
+	<action>
+	self destroy.
+	self neighbourhood do: [ :each | each destroy ]
+]
+
 { #category : 'accessing' }
 HSPlot >> field [
 
