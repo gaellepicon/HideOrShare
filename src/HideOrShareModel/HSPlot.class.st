@@ -12,9 +12,31 @@ Class {
 		'sensitivityToBacteria',
 		'contagionRate'
 	],
+	#classInstVars : [
+		'initialInfectionLevel'
+	],
 	#category : 'HideOrShareModel',
 	#package : 'HideOrShareModel'
 }
+
+{ #category : 'accessing' }
+HSPlot class >> initialInfectionLevel [
+
+	^ initialInfectionLevel
+]
+
+{ #category : 'accessing' }
+HSPlot class >> initialInfectionLevel: anObject [
+
+	initialInfectionLevel := anObject
+]
+
+{ #category : 'initialization' }
+HSPlot class >> initializeParameters [
+	
+	super initializeParameters.
+	initialInfectionLevel := 0.3
+]
 
 { #category : 'initialize' }
 HSPlot >> beCoveredBy: aSpecies [
@@ -32,7 +54,8 @@ HSPlot >> contagionRate [
 HSPlot >> destroy [
 
 	<action>
-	isDestroyed := true
+	isDestroyed := true.
+	infectionLevel := 0
 ]
 
 { #category : 'accessing' }
@@ -52,6 +75,7 @@ HSPlot >> getInfected [
 
 	| highestInfectionLevelAround |
 	self isHealthy ifFalse: [ ^ self ].
+	self isDestroyed ifTrue: [ ^ self ].
 
 	highestInfectionLevelAround := self neighbourhood maxValue:
 		                                #infectionLevel.
@@ -69,7 +93,7 @@ HSPlot >> hasAlmondTree [
 { #category : 'testing' }
 HSPlot >> hasField [ 
 
-	^ field isNotNil 
+	^ isDestroyed not 
 ]
 
 { #category : 'testing' }
@@ -109,6 +133,12 @@ HSPlot >> initialize [
 	isDestroyed := false
 ]
 
+{ #category : 'control' }
+HSPlot >> isDestroyed [
+
+^ isDestroyed 
+]
+
 { #category : 'testing' }
 HSPlot >> isHealthy [
 
@@ -144,9 +174,8 @@ HSPlot >> pov [
 
 	<pov>
 	| color |
-	color := self hasField
-		         ifTrue: [ field color ]
-		         ifFalse: [ Color black ].
+	self hasField ifFalse: [ ^ CMPointOfView color: Color black ].
+	color :=  field color.
 
 	self isInfected ifTrue: [ color := color + Color red ].
 
@@ -162,10 +191,20 @@ HSPlot >> povInfected [
 			  CMPointOfView color: (self
 					   colorAttribute: #infectionLevel
 					   min: 0
+					   color: Color white
+					   max: 1
+					   color: CMColor red) ]
+		  ifFalse: [ CMPointOfView color: Color white ]
+	
+	"^ self isInfected
+		  ifTrue: [
+			  CMPointOfView color: (self
+					   colorAttribute: #infectionLevel
+					   min: 0
 					   color: field color
 					   max: 1
 					   color: CMColor red) ]
-		  ifFalse: [ CMPointOfView color: field color ]
+		  ifFalse: [ CMPointOfView color: field color ]"
 ]
 
 { #category : 'pov' }
@@ -179,7 +218,7 @@ HSPlot >> povOwner [
 HSPlot >> setInfection [ 
 
 	<action>
-	infectionLevel := 0.5
+	infectionLevel := self class initialInfectionLevel
 	
 ]
 

@@ -10,21 +10,30 @@ Class {
 		'availableForTraining',
 		'detectedContaminatedPlots'
 	],
+	#classInstVars : [
+		'minInitialDetectionLevel'
+	],
 	#category : 'HideOrShareModel',
 	#package : 'HideOrShareModel'
 }
 
-{ #category : 'control' }
-HSHorticulturist >> destroyField [
-	"Destroys only the infected tree, i.e. remove the field covering the infected plot"
+{ #category : 'initialization' }
+HSHorticulturist class >> initializeParameters [ 
 
-	self patch field: nil
+	super initializeParameters.
+	minInitialDetectionLevel := 0.5
 ]
 
 { #category : 'accessing' }
-HSHorticulturist >> detectionLevel [
+HSHorticulturist class >> minInitialDetectionLevel [
 
-	^ detectionLevel
+	^ minInitialDetectionLevel
+]
+
+{ #category : 'accessing' }
+HSHorticulturist class >> minInitialDetectionLevel: anObject [
+
+	minInitialDetectionLevel := anObject
 ]
 
 { #category : 'testing' }
@@ -32,14 +41,16 @@ HSHorticulturist >> hasAnyInfectedField [
 	".."
 
 	
-	^ plots includes: [ :each | each isInfected ] 
+	^ plots anySatisfy: [ :each | each infectionLevel > detectionLevel ] 
 ]
 
 { #category : 'control' }
 HSHorticulturist >> hide [
 
-	self hasAnyInfectedField ifTrue: [
-		  self moveTo: self mostInfectedField. self patch destroyField ]
+	self hasAnyInfectedField ifFalse: [^ self].
+	
+	self moveTo: self mostInfectedField.
+	self patch destroy
 ]
 
 { #category : 'initialize' }
@@ -53,9 +64,16 @@ HSHorticulturist >> initialize [
 { #category : 'accessing' }
 HSHorticulturist >> mostInfectedField [
 	".."
+	
+	| candidatePlots |
 
-	^ (plots asSortedCollection: [ :p1 :p2 |
-		                p1 infectionLevel > p2 infectionLevel ]) first.
+	candidatePlots := plots select: [ :plot | 
+		plot infectionLevel > detectionLevel ].
+	
+	candidatePlots sort: [ :a :b |
+		a infectionLevel < b infectionLevel ].
+
+	^ candidatePlots first.
 
 
 
@@ -88,7 +106,10 @@ HSHorticulturist >> plots: aCollection [
 HSHorticulturist >> pov [
 
 	<pov>
-	^ CMPointOfView color: Color lightGreen shape: #square size: 12
+	^ CMPointOfView
+		image: CMCat walkingDown first
+		size: 30
+	"^ CMPointOfView color: Color lightGreen shape: #square size: 12"
 ]
 
 { #category : 'control' }
@@ -102,7 +123,9 @@ HSHorticulturist >> reportSymptoms [
 { #category : 'control' }
 HSHorticulturist >> setDetectionLevel [
 
-	detectionLevel := self randomBetween: 0.1 and: 1
+	detectionLevel := self
+		randomBetween: self class minInitialDetectionLevel
+		and: 1
 ]
 
 { #category : 'stepping' }
