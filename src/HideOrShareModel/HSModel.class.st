@@ -141,11 +141,25 @@ HSModel >> initialize [
 	destroyers := OrderedCollection new
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'probes' }
+HSModel >> numberOfDestroyedPlots [
+
+	<probeNamed: 'Number destroyed plots' color: '000002'>
+	^ (plots select: #isDestroyed) size
+]
+
+{ #category : 'probes' }
+HSModel >> numberOfInfectedPlots [
+
+	<probeNamed: 'Number infected plots' color: 'E74C3C'>
+	^ (plots select: #isInfected ) size
+]
+
+{ #category : 'probes' }
 HSModel >> numberOfOliveTrees [
 
-	<probeNamed: 'Number of olive trees' color: '959504'>
-	^ plots count: #hasOliveTree
+	<probeNamed: 'Number olive tree' color: '959504'>
+	^ (plots select: #hasOliveTree) size
 ]
 
 { #category : 'accessing' }

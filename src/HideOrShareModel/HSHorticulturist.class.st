@@ -40,8 +40,7 @@ HSHorticulturist class >> minInitialDetectionLevel: anObject [
 HSHorticulturist >> hasAnyInfectedField [
 	".."
 
-	
-	^ plots anySatisfy: [ :each | each infectionLevel > detectionLevel ] 
+	^ plots anySatisfy: [ :each | each infectionLevel > detectionLevel ]
 ]
 
 { #category : 'control' }
@@ -140,5 +139,5 @@ HSHorticulturist >> share [
 { #category : 'stepping' }
 HSHorticulturist >> step [
 
-	self hide 
+	self hide
 ]
