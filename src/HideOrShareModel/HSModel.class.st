@@ -75,8 +75,9 @@ HSModel >> basicLandscape [
 { #category : 'control' }
 HSModel >> basicStep [
 
-<control>
-	plots do: #step
+	<control>
+	plots do: #step.
+	horticulturists do: #step
 ]
 
 { #category : 'as yet unclassified' }

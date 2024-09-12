@@ -49,20 +49,26 @@ HSPlot >> field: anObject [
 { #category : 'control' }
 HSPlot >> getInfected [
 
-	| heighestInfectionLevelAround |
+	| highestInfectionLevelAround |
 	self isHealthy ifFalse: [ ^ self ].
 
-	heighestInfectionLevelAround := self neighbourhood maxValue:
+	highestInfectionLevelAround := self neighbourhood maxValue:
 		                                #infectionLevel.
 
-	self random < heighestInfectionLevelAround ifTrue: [
-		infectionLevel := heighestInfectionLevelAround * self contagionRate ]
+	self random < highestInfectionLevelAround ifTrue: [
+		infectionLevel := highestInfectionLevelAround * self contagionRate ]
 ]
 
 { #category : 'testing' }
 HSPlot >> hasAlmondTree [
 
 	^ field isAlmondTree
+]
+
+{ #category : 'testing' }
+HSPlot >> hasField [ 
+
+	^ field isNotNil 
 ]
 
 { #category : 'testing' }
@@ -103,12 +109,6 @@ HSPlot >> initialize [
 ]
 
 { #category : 'testing' }
-HSPlot >> isDestroyed [
-
-	^ isDestroyed
-]
-
-{ #category : 'testing' }
 HSPlot >> isHealthy [
 
 	^ self isInfected not
@@ -142,7 +142,14 @@ HSPlot >> owner: anObject [
 HSPlot >> pov [
 
 	<pov>
-	^ CMPointOfView color: field color
+	| color |
+	color := self hasField
+		         ifTrue: [ field color ]
+		         ifFalse: [ Color black ].
+
+	self isInfected ifTrue: [ color := color + Color red ].
+
+	^ CMPointOfView color: color
 ]
 
 { #category : 'pov' }
@@ -154,10 +161,10 @@ HSPlot >> povInfected [
 			  CMPointOfView color: (self
 					   colorAttribute: #infectionLevel
 					   min: 0
-						color: Color white
+					   color: field color
 					   max: 1
 					   color: CMColor red) ]
-		  ifFalse: [ CMPointOfView color: Color white ]
+		  ifFalse: [ CMPointOfView color: field color ]
 ]
 
 { #category : 'pov' }

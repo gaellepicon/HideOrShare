@@ -14,3 +14,10 @@ Class {
 HSDestroyer >> destroy [ 
 "When a plot is reported as infected by a horticulturist, one destroyer comes to this plot and destroys it + the 8 neighbors (i.e. removes the field from the plot"
 ]
+
+{ #category : 'pov' }
+HSDestroyer >> pov [
+
+	<pov>
+	^ CMPointOfView color: Color orange shape: #circle size: 15
+]
